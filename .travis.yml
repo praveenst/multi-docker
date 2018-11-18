@@ -1,0 +1,26 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t praveenst/react-test -f ./client/Dockerfile.dev ./client
+
+#any as many scripts but if any of it exits with non-zero exit codes, travis fails build
+# -- --coverage in npm test is to force exit of npm test, default npm test enters watch
+# mode (i.e.,) never exits by default
+script:
+  - docker run praveenst/react-test npm test -- --coverage
+  
+after_success:
+  - docker build -t praveenst/multi-client ./client
+  - docker build -t praveenst/multi-nginx ./nginx
+  - docker build -t praveenst/multi-server ./server
+  - docker build -t praveenst/multi-worker ./worker
+  #Log in to the docker CLI
+  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" -- password-stdin
+  #take the images bult in after_success: block and push to docker hub
+  - docker push praveenst/multi-client
+  - docker push praveenst/multi-nginx
+  - docker push praveenst/multi-server
+  - docker push praveenst/multi-worker
+  
