@@ -33,8 +33,6 @@
                     "containerPort": 80
                 }
             ],
-            "_comment1": "this is a definition that establishes links from nginx to client and server",
-            "_comment2": "it maps by using the 'name' key and not 'hostname' key of the container it links to",
             "Links": ["client", "server"],
             "memory": 128
         }
