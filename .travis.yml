@@ -17,7 +17,7 @@ after_success:
   - docker build -t praveenst/multi-server ./server
   - docker build -t praveenst/multi-worker ./worker
   #Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" -- password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #take the images bult in after_success: block and push to docker hub
   - docker push praveenst/multi-client
   - docker push praveenst/multi-nginx
