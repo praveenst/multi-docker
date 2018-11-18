@@ -38,6 +38,5 @@
             "Links": ["client", "server"],
             "memory": 128
         }
-    ]
-    
+    ]   
 }

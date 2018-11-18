@@ -9,7 +9,7 @@ before_install:
 # -- --coverage in npm test is to force exit of npm test, default npm test enters watch
 # mode (i.e.,) never exits by default
 script:
-  - docker run praveenst/react-test npm test -- --coverage
+  - docker run praveenst/react-test npm run test -- --coverage
   
 after_success:
   - docker build -t praveenst/multi-client ./client
@@ -26,13 +26,13 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  region: us-east-2
-  app: multi-docker
-  env: MultiDocker-env
-  bucket_name: elasticbeanstalk-us-east-2-488423800251
-  bucket_path: multi-docker
+  region: "us-east-2"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-us-east-2-488423800251"
+  bucket_path: "multi-docker"
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: 
-    secure: $AWS_SECRET_KEY
+    secure: "$AWS_SECRET_KEY"
