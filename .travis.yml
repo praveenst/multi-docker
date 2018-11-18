@@ -5,7 +5,7 @@ services:
 before_install:
   - docker build -t praveenst/react-test -f ./client/Dockerfile.dev ./client
 
-#any as many scripts but if any of it exits with non-zero exit codes, travis fails build
+#add as many scripts but if any of it exits with non-zero exit codes, travis fails build
 # -- --coverage in npm test is to force exit of npm test, default npm test enters watch
 # mode (i.e.,) never exits by default
 script:
@@ -23,3 +23,16 @@ after_success:
   - docker push praveenst/multi-nginx
   - docker push praveenst/multi-server
   - docker push praveenst/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-east-2-488423800251
+  bucket_path: multi-docker
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: $AWS_SECRET_KEY

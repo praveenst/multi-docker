@@ -1,0 +1,39 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "praveenst/multi-client",
+            "hostname": "client",
+            "essential": false
+        },        
+        {
+            "name": "server",
+            "image": "praveenst/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "praveenst/multi-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "praveenst/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "_comment1": "this is a definition that establishes links from nginx to client and server",
+            "_comment2": "it maps by using the 'name' key and not 'hostname' key of the container it links to",
+            "Links": ["client", "server"]
+        }
+    ]
+    
+}
